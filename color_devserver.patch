@@ -1,0 +1,30 @@
+--- dev_appserver.py	2014-04-20 14:11:35.000000000 +0200
++++ dev_color_appserver.py	2014-04-20 14:09:56.000000000 +0200
+@@ -20,8 +20,27 @@
+ import os
+ import sys
+ 
++from colorlog import ColoredFormatter
++from logging import StreamHandler, DEBUG, CRITICAL, getLogger, root
+ 
++formatter = ColoredFormatter(
++    "%(log_color)s%(levelname)-8s%(reset)s %(message)s",
++    datefmt=None,
++    reset=True,
++    log_colors={
++        'DEBUG':    'cyan',
++        'INFO':     'green',
++        'WARNING':  'yellow',
++        'ERROR':    'red',
++        'CRITICAL': 'red',
++    }
++)
+ 
++stream = StreamHandler()
++stream.setFormatter(formatter)
++
++logger = getLogger()
++logger.addHandler(stream)
+ 
+ sys_path = sys.path
+ try:
